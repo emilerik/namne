@@ -2,8 +2,7 @@ import logging
 
 from fastapi import Body, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-
-# from fastapi.staticfiles import StaticFiles
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
 from app.auth import authenticate
@@ -25,9 +24,6 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Name Voting API", version="1.0.0")
 
-# TODO
-# app.mount("/static", StaticFiles(directory="static"), name="static")
-
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
@@ -38,18 +34,19 @@ app.add_middleware(
 )
 
 
-@app.get("/")
-async def get_root():
+# API Routes
+@app.get("/api")
+async def get_api_info():
     return {"message": "Name Voting API", "version": "1.0.0"}
 
 
-@app.get("/health")
+@app.get("/api/health")
 async def health_check():
     """Health check endpoint for monitoring"""
     return {"status": "healthy"}
 
 
-@app.post("/admin/init-db")
+@app.post("/api/admin/init-db")
 async def init_database_endpoint():
     """Manual database initialization endpoint (for troubleshooting)"""
     try:
@@ -74,7 +71,7 @@ async def init_database_endpoint():
         )
 
 
-@app.get("/names", dependencies=[Depends(authenticate)])
+@app.get("/api/names", dependencies=[Depends(authenticate)])
 async def get_names_endpoint(
     db_session: Session = Depends(get_db), username: str = Depends(authenticate)
 ) -> GetNamesResponse:
@@ -83,7 +80,7 @@ async def get_names_endpoint(
     return GetNamesResponse(names=names)
 
 
-@app.post("/name/{name_id}", dependencies=[Depends(authenticate)])
+@app.post("/api/name/{name_id}", dependencies=[Depends(authenticate)])
 async def vote_on_name_endpoint(
     name_id: NameId,
     db_session: Session = Depends(get_db),
@@ -100,6 +97,13 @@ async def vote_on_name_endpoint(
     return VoteOnNameResponse(matchedWith=matched_with)
 
 
-@app.get("/authenticate", dependencies=[Depends(authenticate)])
+@app.get("/api/authenticate", dependencies=[Depends(authenticate)])
 def read_private(username: str = Depends(authenticate)):
     return {"message": f"Hello, {username}!"}
+
+
+# Mount React app assets at /assets for proper asset loading
+app.mount("/assets", StaticFiles(directory="/app/static/assets"), name="assets")
+
+# Mount React app at root - this should come last to catch all other routes
+app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")

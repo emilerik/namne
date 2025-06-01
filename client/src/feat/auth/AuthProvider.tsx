@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const authenticate = useCallback(async (authHeader: string) => {
-    const res = await fetch(`${API_URL}/authenticate`, {
+    const res = await fetch(`${API_URL}/api/authenticate`, {
       headers: { Authorization: authHeader },
     });
     if (!res.ok) {

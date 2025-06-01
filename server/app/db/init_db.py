@@ -23,8 +23,8 @@ if __name__ == "__main__":
 
     def seed_names():
         for file_path, gender in [
-            ("server/app/db/data/boys_name_1000.csv", "boy"),
-            ("server/app/db/data/girls_name_1000.csv", "girl"),
+            ("app/db/data/boys_name_1000.csv", "boy"),
+            ("app/db/data/girls_name_1000.csv", "girl"),
         ]:
             with open(file_path, newline="", encoding="utf-8") as csvfile:
                 reader = csv.reader(csvfile)

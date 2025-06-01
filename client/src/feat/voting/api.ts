@@ -10,7 +10,7 @@ export const voteOnName = async ({
   vote,
 }: VoteOnNameRequest): Promise<VoteOnNameResponse> => {
   const authHeader = sessionStorage.getItem("basicAuth");
-  const response = await fetch(`${API_URL}/name/${nameId}`, {
+  const response = await fetch(`${API_URL}/api/name/${nameId}`, {
     method: "POST",
     body: JSON.stringify({ vote }),
     headers: {

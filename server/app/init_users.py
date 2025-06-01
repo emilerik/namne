@@ -38,15 +38,6 @@ def init_users(interactive: bool = True) -> None:
         if existing_users:
             print(f"Users already exist: {[u.username for u in existing_users]}")
 
-            if interactive:
-                response = input("Do you want to recreate all users? (y/N): ")
-                if response.lower() != "y":
-                    return
-            else:
-                # In non-interactive mode, skip if users exist
-                print("Skipping user initialization (non-interactive mode)")
-                return
-
             # Delete existing users
             db.query(DbUser).delete()
             db.commit()

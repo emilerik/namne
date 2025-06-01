@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 export const getNames = async (): Promise<GetNamesResponse> => {
   const authHeader = sessionStorage.getItem("basicAuth");
-  const response = await fetch(`${API_URL}/names`, {
+  const response = await fetch(`${API_URL}/api/names`, {
     headers: { Authorization: authHeader ?? "" },
   });
   if (!response.ok) {
