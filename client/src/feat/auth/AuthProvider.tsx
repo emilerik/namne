@@ -5,7 +5,7 @@ import {
   type PropsWithChildren,
 } from "react";
 import { AuthContext } from "./AuthContext";
-import { BASE_URL } from "@/api";
+import { API_URL } from "@/config";
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const authenticate = useCallback(async (authHeader: string) => {
-    const res = await fetch(`${BASE_URL}/authenticate`, {
+    const res = await fetch(`${API_URL}/authenticate`, {
       headers: { Authorization: authHeader },
     });
     if (!res.ok) {

@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/api";
+import { API_URL } from "@/config";
 import type {
   VoteOnNameRequest,
   VoteOnNameResponse,
@@ -10,7 +10,7 @@ export const voteOnName = async ({
   vote,
 }: VoteOnNameRequest): Promise<VoteOnNameResponse> => {
   const authHeader = sessionStorage.getItem("basicAuth");
-  const response = await fetch(`${BASE_URL}/name/${nameId}`, {
+  const response = await fetch(`${API_URL}/name/${nameId}`, {
     method: "POST",
     body: JSON.stringify({ vote }),
     headers: {
