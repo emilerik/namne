@@ -7,6 +7,7 @@ from app.db_models import DbBase
 # Configure engine based on database type
 if IS_PRODUCTION and DATABASE_URL.startswith("postgresql"):
     # PostgreSQL doesn't need check_same_thread
+    print("Creating engine for PostgreSQL")
     engine = create_engine(DATABASE_URL)
 else:
     # SQLite needs check_same_thread=False

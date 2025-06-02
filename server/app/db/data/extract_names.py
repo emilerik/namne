@@ -21,14 +21,16 @@ girl_names = extract_names("girls")  # type: ignore
 boy_names = extract_names("boys")  # type: ignore
 
 # Write to CSV files
-with open("girls_name_1000.csv", "w", newline="", encoding="utf-8") as f:
+with open("girls_name_1000_w_gender.csv", "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f)
+    writer.writerow(["id", "name", "gender"])
     for name in girl_names:  # type: ignore
         id = uuid4()
-        writer.writerow([id, name])
+        writer.writerow([id, name, "girl"])
 
-with open("boys_name_1000.csv", "w", newline="", encoding="utf-8") as f:
+with open("boys_name_1000_w_gender.csv", "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f)
+    writer.writerow(["id", "name", "gender"])
     for name in boy_names:  # type: ignore
         id = uuid4()
-        writer.writerow([id, name])
+        writer.writerow([id, name, "boy"])
