@@ -1,6 +1,6 @@
 import logging
 
-from fastapi import Body, Depends, FastAPI, HTTPException
+from fastapi import APIRouter, Body, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
@@ -33,20 +33,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+api_router = APIRouter(prefix="/api")
+app.include_router(api_router)
+
 
 # API Routes
-@app.get("/api")
+@api_router.get("/")
 async def get_api_info():
     return {"message": "Name Voting API", "version": "1.0.0"}
 
 
-@app.get("/api/health")
+@api_router.get("/health")
 async def health_check():
     """Health check endpoint for monitoring"""
     return {"status": "healthy"}
 
 
-@app.post("/api/admin/init-db")
+@api_router.post("/admin/init-db")
 async def init_database_endpoint():
     """Manual database initialization endpoint (for troubleshooting)"""
     try:
@@ -71,7 +74,7 @@ async def init_database_endpoint():
         )
 
 
-@app.get("/api/names", dependencies=[Depends(authenticate)])
+@api_router.get("/names", dependencies=[Depends(authenticate)])
 async def get_names_endpoint(
     db_session: Session = Depends(get_db), username: str = Depends(authenticate)
 ) -> GetNamesResponse:
@@ -80,7 +83,7 @@ async def get_names_endpoint(
     return GetNamesResponse(names=names)
 
 
-@app.post("/api/name/{name_id}", dependencies=[Depends(authenticate)])
+@api_router.post("/name/{name_id}", dependencies=[Depends(authenticate)])
 async def vote_on_name_endpoint(
     name_id: NameId,
     db_session: Session = Depends(get_db),
@@ -97,7 +100,7 @@ async def vote_on_name_endpoint(
     return VoteOnNameResponse(matchedWith=matched_with)
 
 
-@app.get("/api/authenticate", dependencies=[Depends(authenticate)])
+@api_router.get("/authenticate", dependencies=[Depends(authenticate)])
 def read_private(username: str = Depends(authenticate)):
     return {"message": f"Hello, {username}!"}
 
