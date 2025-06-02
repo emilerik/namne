@@ -24,14 +24,6 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Name Voting API", version="1.0.0")
 
-
-# Mount React app assets at /assets for proper asset loading
-app.mount("/assets", StaticFiles(directory="/app/static/assets"), name="assets")
-
-# Mount React app at root - this should come last to catch all other routes
-app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")
-
-
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
@@ -111,3 +103,12 @@ async def vote_on_name_endpoint(
 @api_router.get("/authenticate", dependencies=[Depends(authenticate)])
 def read_private(username: str = Depends(authenticate)):
     return {"message": f"Hello, {username}!"}
+
+
+# Mount React app assets at /assets for proper asset loading
+app.mount("/assets", StaticFiles(directory="/app/static/assets"), name="assets")
+
+# Mount React app at root - this should come last to catch all other routes
+app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")
+
+logger.info("Hello World!")
