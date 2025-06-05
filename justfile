@@ -6,3 +6,4 @@ start-api:
 
 start-postgres:
     docker build -f infra/Dockerfile.postgres -t namne-postgres .  && docker run --name namne-postgres -p 5432:5432 -d namne-postgres
+    
