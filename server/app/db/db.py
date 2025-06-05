@@ -1,17 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from app.config import DATABASE_URL, IS_PRODUCTION
+from app.config import DATABASE_URL
 from app.db_models import DbBase
 
-# Configure engine based on database type
-if IS_PRODUCTION and DATABASE_URL.startswith("postgresql"):
-    # PostgreSQL doesn't need check_same_thread
-    print("Creating engine for PostgreSQL")
-    engine = create_engine(DATABASE_URL)
-else:
-    # SQLite needs check_same_thread=False
-    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+
+engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

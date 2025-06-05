@@ -34,7 +34,6 @@ app.add_middleware(
 )
 
 api_router = APIRouter(prefix="/api")
-app.include_router(api_router)
 
 
 # API Routes
@@ -105,10 +104,14 @@ def read_private(username: str = Depends(authenticate)):
     return {"message": f"Hello, {username}!"}
 
 
+# Include the API router AFTER all routes are defined
+app.include_router(api_router)
+
 # Mount React app assets at /assets for proper asset loading
 app.mount("/assets", StaticFiles(directory="/app/static/assets"), name="assets")
 
 # Mount React app at root - this should come last to catch all other routes
+# The static mount MUST come after all API routes to avoid intercepting API calls
 app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")
 
 logger.info("Hello World!")
