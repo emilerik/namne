@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 # # Load environment variables from .env file
 load_dotenv(
-    dotenv_path="/Users/emileriksson/Documents/namne/server/app/config/.env.development",
-    override=False,
+    dotenv_path=".env.development",
+    override=True,
 )
 
 # Environment

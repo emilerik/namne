@@ -24,6 +24,8 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Name Voting API", version="1.0.0")
 
+print("CORS_ORIGINS", CORS_ORIGINS)
+
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
