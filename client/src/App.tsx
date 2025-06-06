@@ -11,6 +11,7 @@ import { Match } from "@/feat/voting/Match";
 import { type Match as MatchType } from "@/feat/names/types";
 
 const App = () => {
+  console.log("Hello world");
   const [activeIndex, setActiveIndex] = useState(0);
   const [match, setMatch] = useState<MatchType | null>(null);
   const authContext = useAuth();
