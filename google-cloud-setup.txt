@@ -1,0 +1,12 @@
+# Google cloud setup
+
+gcloud init
+
+gcloud services enable run.googleapis.com artifactregistry.googleapis.com
+
+gcloud config set project project-jan-26
+gcloud config set run/region europe-north1
+
+gcloud artifacts repositories create namne-repo \
+  --repository-format=docker \
+  --location=europe-north1
