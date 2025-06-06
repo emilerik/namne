@@ -3,8 +3,8 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
-from app.db.db import get_db
-from app.db_models import DbUser
+from .db.db import get_db
+from .db_models import DbUser
 
 security = HTTPBasic()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

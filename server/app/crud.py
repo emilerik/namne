@@ -4,8 +4,8 @@ from fastapi import HTTPException
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app.db_models import DbNameEntry, DbUser, DbVote
-from app.schema import NameEntry, NameId, User, Username, Vote, VoteId
+from .db_models import DbNameEntry, DbUser, DbVote
+from .schema import NameEntry, NameId, User, Username, Vote, VoteId
 
 
 def get_names(username: str, db_session: Session) -> list[NameEntry]:

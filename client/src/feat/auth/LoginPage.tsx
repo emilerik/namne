@@ -38,8 +38,6 @@ export const LoginPage = () => {
     return <Navigate to="/" />;
   }
 
-  console.log(form.formState.errors);
-
   return (
     <div className="size-full flex items-center justify-center flex-col">
       <form
@@ -67,7 +65,7 @@ export const LoginPage = () => {
           Submit
         </Button>
         {form.formState.errors.root && (
-          <p className="text-black">Invalid username or password</p>
+          <p className="text-white">Invalid username or password</p>
         )}
       </form>
     </div>

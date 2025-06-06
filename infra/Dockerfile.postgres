@@ -1,13 +1,16 @@
 FROM postgres:16
 
 # Set environment variables
-ENV POSTGRES_USER=appuser
-ENV POSTGRES_PASSWORD=apppassword
-ENV POSTGRES_DB=appdb
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=namne
+
+# Create custom postgresql.conf to use port 1337
+RUN echo "port = 1337" >> /usr/share/postgresql/postgresql.conf.sample
 
 # Expose PostgreSQL port
-EXPOSE 5432
+EXPOSE 1337
 
 # Add healthcheck
 HEALTHCHECK --interval=5s --timeout=5s --retries=5 \
-    CMD pg_isready -U appuser -d appdb
+    CMD pg_isready -U postgres -d namne -p 1337

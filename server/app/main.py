@@ -5,11 +5,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
-from app.auth import authenticate
-from app.config import CORS_ORIGINS
-from app.crud import get_names, vote_on_name
-from app.db.db import create_tables, get_db
-from app.schema import (
+from .auth import authenticate
+from .config.config import CORS_ORIGINS, IS_PRODUCTION
+from .crud import get_names, vote_on_name
+from .db.db import create_tables, get_db
+from .schema import (
     GetNamesResponse,
     NameId,
     Username,
@@ -107,11 +107,10 @@ def read_private(username: str = Depends(authenticate)):
 # Include the API router AFTER all routes are defined
 app.include_router(api_router)
 
-# Mount React app assets at /assets for proper asset loading
-app.mount("/assets", StaticFiles(directory="/app/static/assets"), name="assets")
+if IS_PRODUCTION:
+    # Mount React app assets at /assets for proper asset loading
+    app.mount("/assets", StaticFiles(directory="/app/static/assets"), name="assets")
 
-# Mount React app at root - this should come last to catch all other routes
-# The static mount MUST come after all API routes to avoid intercepting API calls
-app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")
-
-logger.info("Hello World!")
+    # Mount React app at root - this should come last to catch all other routes
+    # The static mount MUST come after all API routes to avoid intercepting API calls
+    app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")

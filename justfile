@@ -1,9 +1,15 @@
 _default:
   @just --list
 
-start-api:
+start-api-docker:
     docker build -f infra/Dockerfile -t namne-app .  && docker run --name namne-app --env-file ./infra/.env.development -p 8000:8000 -d namne-app
 
-start-postgres:
-    docker build -f infra/Dockerfile.postgres -t namne-postgres .  && docker run --name namne-postgres -p 5432:5432 -d namne-postgres
+start-api:
+    uvicorn server.app.main:app --reload --host 0.0.0.0 --port 8000
+
+db-restart:
+    docker stop namne-db || true
+    docker rm namne-db || true
+    docker build -f infra/Dockerfile.postgres -t namne-db .  && docker run --name namne-db -p 1337:1337 -d namne-db
     
+dev: 
